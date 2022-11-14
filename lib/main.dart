@@ -38,10 +38,10 @@ class Quakes extends StatelessWidget {
               if (position.isOdd) return Divider();
               final index = position ~/ 2; //
               // we are dividing positon by 2 and returing an integer result
-              var format=new DateFormat.yMMMMd("en_US").add_jm();
-              var date=format.format(new DateTime.fromMicrosecondsSinceEpoch(_features![index]['properties']['time']*1000,
-              isUtc: true));
-
+              var format = new DateFormat.yMMMMd("en_US").add_jm();
+              var date = format.format(new DateTime.fromMicrosecondsSinceEpoch(
+                  _features![index]['properties']['time'] * 1000,
+                  isUtc: true));
               return new ListTile(
                 title: new Text(
                   "At: $date",
@@ -62,19 +62,37 @@ class Quakes extends StatelessWidget {
                 leading: new CircleAvatar(
                   backgroundColor: Colors.pink,
                   child: new Text("${_features![index]['properties']['mag']}",
-                  style: new TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 16.5,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500
-                  ),),
+                    style: new TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 16.5,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500
+                    ),),
                 ),
+                onTap: () {
+                  _showAlertMessage(context, "${_features![index]['properties']['title']}");
+                },
               );
             }),
       ),
     );
   }
 }
+
+void _showAlertMessage(BuildContext context, String message) {
+  var alert = new AlertDialog(
+    title: new Text('Quakes'),
+    content: new Text(message),
+    actions: <Widget>[
+      new TextButton(onPressed: () {
+        Navigator.pop(context);
+      },
+          child: new Text('Ok'))
+    ],
+  );
+  showDialog(context: context, builder: (context) => alert,);
+}
+
 
 Future<Map> getQuakes() async {
   String apiUrl =
