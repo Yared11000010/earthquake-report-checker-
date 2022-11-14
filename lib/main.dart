@@ -26,9 +26,10 @@ class Quakes extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: Text('Quakes'),
+        title: Text('Byt Quakes'),
         centerTitle: true,
         backgroundColor: Colors.red,
+        leading: Icon(Icons.earbuds_battery_outlined),
       ),
       body: Center(
         child: new ListView.builder(
